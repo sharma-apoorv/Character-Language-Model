@@ -31,7 +31,6 @@ def train(model, device, optimizer, train_loader, lr, epoch, log_interval):
                 100. * batch_idx / len(train_loader), loss.item()))
     return np.mean(losses)
 
-
 def test(model, device, test_loader):
     model.eval()
     test_loss = 0
@@ -63,7 +62,7 @@ def test(model, device, test_loader):
     return test_loss, test_accuracy
 
 
-if __name__ == '__main__':
+def run_train(language, work_dir):
     SEQUENCE_LENGTH = 100
     BATCH_SIZE = 256
     FEATURE_SIZE = 512
@@ -76,8 +75,8 @@ if __name__ == '__main__':
     LOG_PATH = DATA_PATH + 'logs/log.pkl'
 
 
-    data_train = LanguageDataset(DATA_PATH + 'harry_potter_chars_train.pkl', SEQUENCE_LENGTH, BATCH_SIZE)
-    data_test = LanguageDataset(DATA_PATH + 'harry_potter_chars_test.pkl', SEQUENCE_LENGTH, TEST_BATCH_SIZE)
+    data_train = LanguageDataset(DATA_PATH + language + '_chars_train.pkl', SEQUENCE_LENGTH, BATCH_SIZE)
+    data_test = LanguageDataset(DATA_PATH + language + '_chars_test.pkl', SEQUENCE_LENGTH, TEST_BATCH_SIZE)
     vocab = data_train.vocab
 
     use_cuda = USE_CUDA and torch.cuda.is_available()
@@ -96,38 +95,29 @@ if __name__ == '__main__':
     test_loader = torch.utils.data.DataLoader(data_test, batch_size=TEST_BATCH_SIZE,
                                               shuffle=False, **kwargs)
 
-    model = CharNet(data_train.vocab_size(), FEATURE_SIZE).to(device)
+    model = CharNet(data_train.vocab, FEATURE_SIZE).to(device)
 
     # Adam is an optimizer like SGD but a bit fancier. It tends to work faster and better than SGD.
     # We will talk more about different optimization methods in class.
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
-    start_epoch = model.load_last_model(DATA_PATH + 'checkpoints')
 
-    train_losses, test_losses, test_accuracies = pt_util.read_log(LOG_PATH, ([], [], []))
-    test_loss, test_accuracy = test(model, device, test_loader)
+    #train_losses, test_losses, test_accuracies = pt_util.read_log(LOG_PATH, ([], [], []))
+    train_losses, test_losses, test_accuracies = [], [], []
+    #test_loss, test_accuracy = test(model, device, test_loader)
 
-    test_losses.append((start_epoch, test_loss))
-    test_accuracies.append((start_epoch, test_accuracy))
+    #test_losses.append((start_epoch, test_loss))
+    #test_accuracies.append((start_epoch, test_accuracy))
 
     try:
-        for epoch in range(start_epoch, EPOCHS + 1):
+        for epoch in range(1, EPOCHS+1):
             lr = LEARNING_RATE * np.power(0.25, (int(epoch / 6)))
             train_loss = train(model, device, optimizer, train_loader, lr, epoch, PRINT_INTERVAL)
             test_loss, test_accuracy = test(model, device, test_loader)
             train_losses.append((epoch, train_loss))
             test_losses.append((epoch, test_loss))
             test_accuracies.append((epoch, test_accuracy))
-            pt_util.write_log(LOG_PATH, (train_losses, test_losses, test_accuracies))
-            model.save_best_model(test_accuracy, DATA_PATH + 'checkpoints/%03d.pt' % epoch)
-            seed_words = 'Harry Potter, Voldemort, and Dumbledore walk into a bar. '
-            generated_sentence = generate_language(model, device, seed_words, 200, vocab, 'max')
-            print('generated max\t\t', generated_sentence)
-            for ii in range(10):
-                generated_sentence = generate_language(model, device, seed_words, 200, vocab, 'sample')
-                print('generated sample\t', generated_sentence)
-            generated_sentence = generate_language(model, device, seed_words, 200, vocab, 'beam')
-            print('generated beam\t\t', generated_sentence)
-            print('')
+            #pt_util.write_log(LOG_PATH, (train_losses, test_losses, test_accuracies))
+            #model.save_best_model(test_accuracy, DATA_PATH + 'checkpoints/%03d.pt' % epoch)
 
     except KeyboardInterrupt as ke:
         print('Interrupted')
@@ -138,9 +128,9 @@ if __name__ == '__main__':
         print('Saving final model')
         model.save_model(DATA_PATH + 'checkpoints/%03d.pt' % epoch, 0)
         ep, val = zip(*train_losses)
-        pt_util.plot(ep, val, 'Train loss', 'Epoch', 'Error')
+        #pt_util.plot(ep, val, 'Train loss', 'Epoch', 'Error')
         ep, val = zip(*test_losses)
-        pt_util.plot(ep, val, 'Test loss', 'Epoch', 'Error')
+        #pt_util.plot(ep, val, 'Test loss', 'Epoch', 'Error')
         ep, val = zip(*test_accuracies)
-        pt_util.plot(ep, val, 'Test accuracy', 'Epoch', 'Error')
-        return model, vocab, device
+        #pt_util.plot(ep, val, 'Test accuracy', 'Epoch', 'Error')
+        return model
