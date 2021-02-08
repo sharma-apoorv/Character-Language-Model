@@ -30,8 +30,6 @@ if __name__ == '__main__':
         
         print('Training')
         model = run_train('harry_potter', args.work_dir)
-        print('Saving model')
-        model.save(args.work_dir)
     elif args.mode == 'test':
         print('Loading model')
         model = CharNet.load(args.work_dir)
