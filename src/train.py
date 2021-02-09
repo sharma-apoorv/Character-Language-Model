@@ -126,7 +126,7 @@ def run_train(language, work_dir):
         traceback.print_exc()
     finally:
         print('Saving final model')
-        model.save(args.work_dir)
+        model.save(work_dir)
         #model.save_model(DATA_PATH + 'checkpoints/%03d.pt' % epoch, 0)
         ep, val = zip(*train_losses)
         #pt_util.plot(ep, val, 'Train loss', 'Epoch', 'Error')
