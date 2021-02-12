@@ -9,14 +9,28 @@ from torch.optim import SGD, Adam
 import torch.optim as optim
 import tqdm
 import pickle
+import random
+
+from language_cleaner import *
 
 DATA_PATH = './data/'
 
 # preprocessing
 def load_training_data(filename, language):
-    with open(DATA_PATH + filename) as f:
-        # This reads all the data from the file, but does not do any processing on it.
-        data = f.read()
+    rd = RussianCleaner('./data/russian/interfax.csv', save_file_path="./data/russian.txt", save_sentences=True)
+    sd = SpanishCleaner('./data/spanish/', save_file_path="./data/spanish.txt", save_sentences=True)
+    
+    with open('./data/portuguese.txt') as f:
+        pd = f.read()
+
+    sentence_list = []
+    sentence_list.extend(sd.get_sentence_list())
+    sentence_list.extend(rd.get_sentence_list())
+    random.shuffle(sentence_list)
+
+    data =""
+    data += ' '.join(sentence_list)
+    data += ' '.join(pd)
     
     # Add more preprocessing
     data.replace("\n", " ")

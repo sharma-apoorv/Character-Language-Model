@@ -21,7 +21,7 @@ class SpanishData:
         file_list = os.listdir(spanish_corpus_path)
         spanish_sentence_list = []
 
-        for file in file_list[:2]:
+        for file in file_list:
             file_path = os.path.join(spanish_corpus_path, file)
             with open(file_path, "r", encoding='latin-1') as file:
                 spanish_sentences = self._clean_text(file.read())

@@ -53,5 +53,3 @@ class RussianData:
 if __name__ == '__main__':
     print("Russian Data Cleaner")
     rd = RussianData('./data/russian/interfax.csv', save_file_path="./data/russian.txt", save_sentences=True)
-
-    # rd.read_russian_data_from_sql('./data/russian/db.sql')
