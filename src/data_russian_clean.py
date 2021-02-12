@@ -50,24 +50,6 @@ class RussianData:
         sentence_list = map(str.strip, sentence_list)
         return sentence_list
 
-    # def _clean_text(self, text):
-    #     # get rid of all the XML markup
-    #     text = re.sub('<.*>','',text)
-
-    #     # get rid of the "ENDOFARTICLE." text
-    #     text = re.sub('ENDOFARTICLE.','',text)
-
-    #     # get rid of punctuation (except periods)
-    #     punctuationNoPeriod = "[" + re.sub("\.","", string.punctuation) + "]"
-    #     text = re.sub(punctuationNoPeriod, "", text)
-
-    #     text = text.split("\n")
-    #     text = [i for i in text if i] 
-    #     return text
-    
-    # def _flatten(self, l):
-    #     return [word for sublist in l for word in sublist]
-
 if __name__ == '__main__':
     print("Russian Data Cleaner")
     rd = RussianData('./data/russian/interfax.csv', save_file_path="./data/russian.txt", save_sentences=True)
