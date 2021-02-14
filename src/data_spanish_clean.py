@@ -21,7 +21,7 @@ class SpanishData:
         file_list = os.listdir(spanish_corpus_path)
         spanish_sentence_list = []
 
-        for file in file_list[:2]:
+        for file in file_list:
             file_path = os.path.join(spanish_corpus_path, file)
             with open(file_path, "r", encoding='latin-1') as file:
                 spanish_sentences = self._clean_text(file.read())
@@ -46,13 +46,14 @@ class SpanishData:
                 fh.write('%s\n' % sentence)
     
     def read_sentence_list_from_file(self, filePath):
-        spanish_sentence_list = []
+        sentence_list = []
 
         # open file and read the content in a list
         with open(filePath, 'r', encoding='latin-1') as fh:
-            spanish_sentence_list = fh.readlines()
+            sentence_list = fh.readlines()
         
-        print(spanish_sentence_list[:10])
+        sentence_list = map(str.strip, sentence_list)
+        return sentence_list
 
     def _clean_text(self, text):
         # get rid of all the XML markup

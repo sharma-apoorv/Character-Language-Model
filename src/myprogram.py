@@ -13,7 +13,7 @@ if __name__ == '__main__':
     
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument('mode', choices=('train', 'test'), help='what to run')
-    parser.add_argument('--work_dir', help='where to save', default='work')
+    parser.add_argument('--work_dir', help='where to save', default='work/')
     parser.add_argument('--test_data', help='path to test data', default='example/input.txt')
     parser.add_argument('--test_output', help='path to write test predictions', default='pred.txt')
     args = parser.parse_args()
@@ -26,10 +26,10 @@ if __name__ == '__main__':
             os.makedirs(args.work_dir)
             
         print('Loading training data')
-        load_training_data('harry_potter.txt', 'harry_potter')
+        load_training_data('', 'lang')
         
         print('Training')
-        model = run_train('harry_potter', args.work_dir)
+        model = run_train('lang', args.work_dir)
     elif args.mode == 'test':
         print('Loading model')
         model = CharNet.load(args.work_dir)
