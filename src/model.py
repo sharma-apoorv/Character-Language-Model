@@ -182,11 +182,13 @@ class CharNet(nn.Module):
     def run_pred(self, data):
         # your code here
         preds = []
-        all_chars = string.ascii_letters
+        USE_CUDA = True
+        use_cuda = USE_CUDA and torch.cuda.is_available()
+        device = torch.device("cuda" if use_cuda else "cpu")
         for inp in data:
             # this model just predicts a random character each time
-            data = [self.vocab.voc2ind[c] for c in inp]
-            data = torch.LongTensor(data)
+            data = [self.vocab.voc2ind[c] if c in self.vocab.voc2indin else random.randint(0, self.vocab_size-1) for c in inp]
+            data = torch.LongTensor(data).to(device)
             top_guesses = self.inference(data)
             preds.append(''.join(top_guesses))
         return preds
