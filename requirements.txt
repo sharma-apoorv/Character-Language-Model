@@ -1,2 +1,3 @@
 nltk==3.5
 polyglot==16.7.4
+pytorch==1.7.0

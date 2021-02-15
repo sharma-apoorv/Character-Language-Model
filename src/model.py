@@ -152,10 +152,11 @@ class CharNet(nn.Module):
     def inference(self, x, hidden_state=None, temperature=1):
         x = x.view(1, -1)
         x, hidden_state = self.forward(x, hidden_state)
-        x = x[-1].view(1, -1)
+        x = x[0,-1].view(1, -1)
         res, idx = torch.topk(x, 3)
-        
-        return [self.vocab.ind2voc[int(ind)] for ind in idx]
+
+
+        return [self.vocab.ind2voc[int(ind)] for ind in idx.tolist()[0]]
     
     # Predefined loss function
     def loss(self, prediction, label, reduction='mean'):
@@ -166,7 +167,7 @@ class CharNet(nn.Module):
     def load_test_data(cls, fname):
         # your code here
         data = []
-        with open(fname) as f:
+        with open(fname, encoding='utf-8') as f:
             for line in f:
                 inp = line[:-1]  # the last character is a newline
                 data.append(inp)
@@ -184,7 +185,9 @@ class CharNet(nn.Module):
         all_chars = string.ascii_letters
         for inp in data:
             # this model just predicts a random character each time
-            top_guesses = [random.choice(all_chars) for _ in range(3)]
+            data = [self.vocab.voc2ind[c] for c in inp]
+            data = torch.LongTensor(data)
+            top_guesses = self.inference(data)
             preds.append(''.join(top_guesses))
         return preds
 
@@ -201,5 +204,8 @@ class CharNet(nn.Module):
         # this particular model has nothing to load, but for demonstration purposes we will load a blank file
         #with open(os.path.join(work_dir, 'model.checkpoint')) as f:
         #    dummy_save = f.read()
-        model = torch.load(work_dir + 'model.checkpoint.pt')
+        if torch.cuda.is_available():
+            model = torch.load(work_dir + '/model.checkpoint.pt')
+        else:
+            model = torch.load(work_dir + '/model.checkpoint.pt', map_location = torch.device('cpu'))
         return model
