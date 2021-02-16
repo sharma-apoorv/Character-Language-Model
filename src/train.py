@@ -63,12 +63,12 @@ def test(model, device, test_loader):
 
 
 def run_train(language, work_dir):
-    SEQUENCE_LENGTH = 100
+    SEQUENCE_LENGTH = 50
     BATCH_SIZE = 256
-    FEATURE_SIZE = 512
+    FEATURE_SIZE = 256
     TEST_BATCH_SIZE = 256
-    EPOCHS = 20
-    LEARNING_RATE = 0.002
+    EPOCHS = 5
+    LEARNING_RATE = 0.005
     WEIGHT_DECAY = 0.0005
     USE_CUDA = True
     PRINT_INTERVAL = 10

@@ -22,15 +22,29 @@ def load_training_data(filename, language):
     
     with open('./data/portuguese.txt') as f:
         pd = f.read()
+    
+    with open('./data/english.txt') as f:
+        ed = f.read()
+    
+    with open('./data/chinese.txt') as f:
+        cd = f.read()
+
+    sd_min = sd.get_sentence_list()
+    sd_min = sd_min[:int(len(sd_min) * 0.2)]
+
+    rd_min = rd.get_sentence_list()
+    rd_min = rd_min[:int(len(rd_min) * 0.2)]
 
     sentence_list = []
-    sentence_list.extend(sd.get_sentence_list())
-    sentence_list.extend(rd.get_sentence_list())
+    sentence_list.extend(sd_min)
+    sentence_list.extend(rd_min)
     random.shuffle(sentence_list)
 
     data =""
     data += ' '.join(sentence_list)
     data += ' '.join(pd)
+    data += ' '.join(ed)
+    data += ' '.join(cd)
     
     # Add more preprocessing
     data.replace("\n", " ")

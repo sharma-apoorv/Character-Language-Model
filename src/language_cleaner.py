@@ -56,7 +56,7 @@ class SpanishCleaner(LanguageCleaner):
             sentence_list = fh.readlines()
         
         sentence_list = map(str.strip, sentence_list)
-        return sentence_list
+        return list(sentence_list)
 
     def clean_text(self, text):
         # get rid of all the XML markup
@@ -113,4 +113,4 @@ class RussianCleaner(LanguageCleaner):
             sentence_list = fh.readlines()
         
         sentence_list = map(str.strip, sentence_list)
-        return sentence_list
+        return list(sentence_list)
