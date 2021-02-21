@@ -28,6 +28,16 @@ def load_training_data(filename, language):
     
     with open('./data/chinese.txt') as f:
         cd = f.read()
+    
+    arabic = WortschatzLanguageParser('data/ara_news_2017_1M-sentences.txt', './data/arabic.txt', True)
+    dutch = WortschatzLanguageParser('data/deu_mixed-typical_2011_1M-sentences.txt', './data/dutch.txt', True)
+    french = WortschatzLanguageParser('data/fra_newscrawl-public_2019_1M-sentences.txt', './data/french.txt', True)
+    luxemborgish = WortschatzLanguageParser('data/ltz-lu_web_2013_1M-sentences.txt', './data/luxemborgish.txt', True)
+
+    arabic_sd = arabic.get_sentence_list()
+    dutch_sd = dutch.get_sentence_list()
+    french_sd = french.get_sentence_list()
+    luxemborgish_sd = luxemborgish.get_sentence_list()
 
     sd_min = sd.get_sentence_list()
     sd_min = sd_min[:int(len(sd_min) * 0.2)]
@@ -38,7 +48,12 @@ def load_training_data(filename, language):
     sentence_list = []
     sentence_list.extend(sd_min)
     sentence_list.extend(rd_min)
-    random.shuffle(sentence_list)
+    sentence_list.extend(arabic_sd)
+    sentence_list.extend(dutch_sd)
+    sentence_list.extend(french_sd)
+    sentence_list.extend(luxemborgish_sd)
+    
+    random.shuffle(sentence_list) # shuffle the 1d list so the languages are mixed up!
 
     data =""
     data += ' '.join(sentence_list)
@@ -49,7 +64,6 @@ def load_training_data(filename, language):
     # Add more preprocessing
     data.replace("\n", " ")
     data.replace("\t", " ")
-    #data = data.lower()
     voc2ind = {}
     curridx = 0
     idxdata = []
@@ -71,10 +85,7 @@ def load_training_data(filename, language):
     pickle.dump({'tokens': train_text, 'ind2voc': ind2voc, 'voc2ind':voc2ind}, open(DATA_PATH + language + '_chars_train.pkl', 'wb'))
     pickle.dump({'tokens': test_text, 'ind2voc': ind2voc, 'voc2ind':voc2ind}, open(DATA_PATH + language + '_chars_test.pkl', 'wb'))
     
-    #vocab = Vocabulary(DATA_PATH + language + '_chars_train.pkl')
-    return #len(vocab)
-    
-#prepare_data(DATA_PATH + 'harry_potter.txt')
+    return
 
 
 class Vocabulary(object):
