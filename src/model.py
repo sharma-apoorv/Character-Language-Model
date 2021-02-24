@@ -17,22 +17,24 @@ DATA_PATH = './data/'
 
 # preprocessing
 def load_training_data(filename, language):
-    rd = RussianCleaner('./data/russian/interfax.csv', save_file_path="./data/russian.txt", save_sentences=True)
-    sd = SpanishCleaner('./data/spanish/', save_file_path="./data/spanish.txt", save_sentences=True)
+    rd = RussianCleaner('./data/russian/interfax.csv', save_file_path="/local1/sharmava-nlp-data/russian.txt", save_sentences=True)
+    sd = SpanishCleaner('./data/spanish/', save_file_path="/local1/sharmava-nlp-data/spanish.txt", save_sentences=True)
     
-    with open('./data/portuguese.txt') as f:
+    with open('/local1/sharmava-nlp-data/portuguese.txt') as f:
         pd = f.read()
     
-    with open('./data/english.txt') as f:
+    with open('/local1/sharmava-nlp-data/english.txt') as f:
         ed = f.read()
-    
-    with open('./data/chinese.txt') as f:
+    len_ed = len(ed)
+    ed = ed[:int(len_ed * 0.05)]
+
+    with open('/local1/sharmava-nlp-data/chinese.txt') as f:
         cd = f.read()
     
-    arabic = WortschatzLanguageParser('data/ara_news_2017_1M-sentences.txt', './data/arabic.txt', True)
-    dutch = WortschatzLanguageParser('data/deu_mixed-typical_2011_1M-sentences.txt', './data/dutch.txt', True)
-    french = WortschatzLanguageParser('data/fra_newscrawl-public_2019_1M-sentences.txt', './data/french.txt', True)
-    luxemborgish = WortschatzLanguageParser('data/ltz-lu_web_2013_1M-sentences.txt', './data/luxemborgish.txt', True)
+    arabic = WortschatzLanguageParser('data/ara_news_2017_1M-sentences.txt', '/local1/sharmava-nlp-data/arabic.txt', True)
+    dutch = WortschatzLanguageParser('data/deu_mixed-typical_2011_1M-sentences.txt', '/local1/sharmava-nlp-data/dutch.txt', True)
+    french = WortschatzLanguageParser('data/fra_newscrawl-public_2019_1M-sentences.txt', '/local1/sharmava-nlp-data/french.txt', True)
+    luxemborgish = WortschatzLanguageParser('data/ltz-lu_web_2013_1M-sentences.txt', '/local1/sharmava-nlp-data/luxemborgish.txt', True)
 
     arabic_sd = arabic.get_sentence_list()
     dutch_sd = dutch.get_sentence_list()
@@ -40,7 +42,7 @@ def load_training_data(filename, language):
     luxemborgish_sd = luxemborgish.get_sentence_list()
 
     sd_min = sd.get_sentence_list()
-    sd_min = sd_min[:int(len(sd_min) * 0.2)]
+    sd_min = sd_min[:int(len(sd_min) * 0.33)]
 
     rd_min = rd.get_sentence_list()
     rd_min = rd_min[:int(len(rd_min) * 0.2)]
