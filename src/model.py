@@ -17,35 +17,73 @@ DATA_PATH = './data/'
 
 # preprocessing
 def load_training_data(filename, language):
-    rd = RussianCleaner('./data/russian/interfax.csv', save_file_path="/local1/sharmava-nlp-data/russian.txt", save_sentences=True)
-    sd = SpanishCleaner('./data/spanish/', save_file_path="/local1/sharmava-nlp-data/spanish.txt", save_sentences=True)
+    rd = RussianCleaner('./data/russian/interfax.csv', save_file_path="/local1/sharmava/russian.txt", save_sentences=True)
+    sd = SpanishCleaner('./data/spanish/', save_file_path="/local1/sharmava/spanish.txt", save_sentences=True)
     
-    with open('/local1/sharmava-nlp-data/portuguese.txt') as f:
+    with open('/local1/sharmava/portuguese.txt') as f:
         pd = f.read()
-    
-    with open('/local1/sharmava-nlp-data/english.txt') as f:
+    len_pd = len(pd)
+    pd = pd[:int(len_pd * 0.5)]
+
+    with open('/local1/sharmava/english.txt') as f:
         ed = f.read()
     len_ed = len(ed)
-    ed = ed[:int(len_ed * 0.05)]
+    ed = ed[:int(len_ed * 0.03)]
 
-    with open('/local1/sharmava-nlp-data/chinese.txt') as f:
+    with open('/local1/sharmava/chinese.txt') as f:
         cd = f.read()
     
-    arabic = WortschatzLanguageParser('data/ara_news_2017_1M-sentences.txt', '/local1/sharmava-nlp-data/arabic.txt', True)
-    dutch = WortschatzLanguageParser('data/deu_mixed-typical_2011_1M-sentences.txt', '/local1/sharmava-nlp-data/dutch.txt', True)
-    french = WortschatzLanguageParser('data/fra_newscrawl-public_2019_1M-sentences.txt', '/local1/sharmava-nlp-data/french.txt', True)
-    luxemborgish = WortschatzLanguageParser('data/ltz-lu_web_2013_1M-sentences.txt', '/local1/sharmava-nlp-data/luxemborgish.txt', True)
+    arabic = WortschatzLanguageParser('data/ara_news_2017_1M-sentences.txt', '/local1/sharmava/arabic.txt', True)
+    dutch = WortschatzLanguageParser('data/deu_mixed-typical_2011_1M-sentences.txt', '/local1/sharmava/dutch.txt', True)
+    french = WortschatzLanguageParser('data/fra_newscrawl-public_2019_1M-sentences.txt', '/local1/sharmava/french.txt', True)
+    luxemborgish = WortschatzLanguageParser('data/ltz-lu_web_2013_1M-sentences.txt', '/local1/sharmava/luxemborgish.txt', True)
+    ben = WortschatzLanguageParser('/local1/ben_newscrawl_2017_1M-sentences.txt', '/local1/sharmava/ben.txt', save_sentences=True)
+    deu = WortschatzLanguageParser('/local1/deu_newscrawl-public_2019_1M-sentences.txt', '/local1/sharmava/deu.txt', save_sentences=True)
+    heb = WortschatzLanguageParser('/local1/heb_wikipedia_2016_1M-sentences.txt', '/local1/sharmava/heb.txt', save_sentences=True)
+    hin = WortschatzLanguageParser('/local1/hin_mixed_2019_1M-sentences.txt', '/local1/sharmava/hin.txt', save_sentences=True)
+    ind = WortschatzLanguageParser('/local1/ind_newscrawl_2016_1M-sentences.txt', '/local1/sharmava/ind.txt', save_sentences=True)
+    jpn = WortschatzLanguageParser('/local1/jpn_newscrawl_2019_1M-sentences.txt', '/local1/sharmava/jpn.txt', save_sentences=True)
+    vie = WortschatzLanguageParser('/local1/vie_wikipedia_2016_1M-sentences.txt', '/local1/sharmava/vie.txt', save_sentences=True)
 
     arabic_sd = arabic.get_sentence_list()
+    arabic_sd = arabic_sd[:int(len(arabic_sd) * 0.5)]
+
     dutch_sd = dutch.get_sentence_list()
+    dutch_sd = dutch_sd[:int(len(dutch_sd) * 0.5)]
+
     french_sd = french.get_sentence_list()
+    french_sd = french_sd[:int(len(french_sd) * 0.5)]
+
     luxemborgish_sd = luxemborgish.get_sentence_list()
+    luxemborgish_sd = luxemborgish_sd[:int(len(luxemborgish_sd) * 0.5)]
+
+    ben_sd = ben.get_sentence_list()
+    ben_sd = ben_sd[:int(len(ben_sd) * 0.5)]
+
+    deu_sd = deu.get_sentence_list()
+    deu_sd = deu_sd[:int(len(deu_sd) * 0.5)]
+
+    heb_sd = heb.get_sentence_list()
+    heb_sd = heb_sd[:int(len(heb_sd) * 0.5)]
+
+    hin_sd = hin.get_sentence_list()
+    hin_sd = hin_sd[:int(len(hin_sd) * 0.5)]
+
+    ind_sd = ind.get_sentence_list()
+    ind_sd = ind_sd[:int(len(ind_sd) * 0.5)]
+
+    jpn_sd = jpn.get_sentence_list()
+    jpn_sd = jpn_sd[:int(len(jpn_sd) * 0.5)]
+
+    vie_sd = vie.get_sentence_list()
+    vie_sd = vie_sd[:int(len(vie_sd) * 0.5)]
+
 
     sd_min = sd.get_sentence_list()
-    sd_min = sd_min[:int(len(sd_min) * 0.33)]
+    sd_min = sd_min[:int(len(sd_min) * 0.16)]
 
     rd_min = rd.get_sentence_list()
-    rd_min = rd_min[:int(len(rd_min) * 0.2)]
+    rd_min = rd_min[:int(len(rd_min) * 0.1)]
 
     sentence_list = []
     sentence_list.extend(sd_min)
@@ -55,6 +93,14 @@ def load_training_data(filename, language):
     sentence_list.extend(french_sd)
     sentence_list.extend(luxemborgish_sd)
     
+    sentence_list.extend(ben_sd) # ?? 
+    sentence_list.extend(deu_sd) #german
+    sentence_list.extend(heb_sd) #hebrew
+    sentence_list.extend(hin_sd) #hindi
+    sentence_list.extend(ind_sd) #indonesian
+    sentence_list.extend(jpn_sd) #japansese
+    sentence_list.extend(vie_sd) #vietnamese
+
     random.shuffle(sentence_list) # shuffle the 1d list so the languages are mixed up!
 
     data =""

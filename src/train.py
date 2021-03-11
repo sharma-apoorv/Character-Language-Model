@@ -67,7 +67,7 @@ def run_train(language, work_dir):
     BATCH_SIZE = 256
     FEATURE_SIZE = 256
     TEST_BATCH_SIZE = 256
-    EPOCHS = 7
+    EPOCHS = 5
     LEARNING_RATE = 0.005
     WEIGHT_DECAY = 0.0005
     USE_CUDA = True

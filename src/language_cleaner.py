@@ -175,7 +175,15 @@ class WortschatzLanguageParser():
         return list(sentence_list)
         
 if __name__ == '__main__':
-    arabic = WortschatzLanguageParser('data/ara_news_2017_1M-sentences.txt', 'data/arabic.txt', True)
-    dutch = WortschatzLanguageParser('data/deu_mixed-typical_2011_1M-sentences.txt', 'data/dutch.txt', True)
-    french = WortschatzLanguageParser('data/fra_newscrawl-public_2019_1M-sentences.txt', 'data/french.txt', True)
-    luxemborgish = WortschatzLanguageParser('data/ltz-lu_web_2013_1M-sentences.txt', 'data/luxemborgish.txt', True)
+    # arabic = WortschatzLanguageParser('data/ara_news_2017_1M-sentences.txt', 'data/arabic.txt', True)
+    # dutch = WortschatzLanguageParser('data/deu_mixed-typical_2011_1M-sentences.txt', 'data/dutch.txt', True)
+    # french = WortschatzLanguageParser('data/fra_newscrawl-public_2019_1M-sentences.txt', 'data/french.txt', True)
+    # luxemborgish = WortschatzLanguageParser('data/ltz-lu_web_2013_1M-sentences.txt', 'data/luxemborgish.txt', True)
+
+    ben = WortschatzLanguageParser('/local1/ben_newscrawl_2017_1M-sentences.txt', '/local1/sharmava-nlp-data/ben.txt', save_sentences=True)
+    deu = WortschatzLanguageParser('/local1/deu_newscrawl-public_2019_1M-sentences.txt', '/local1/sharmava-nlp-data/deu.txt', save_sentences=True)
+    heb = WortschatzLanguageParser('/local1/heb_wikipedia_2016_1M-sentences.txt', '/local1/sharmava-nlp-data/heb.txt', save_sentences=True)
+    hin = WortschatzLanguageParser('/local1/hin_mixed_2019_1M-sentences.txt', '/local1/sharmava-nlp-data/hin.txt', save_sentences=True)
+    ind = WortschatzLanguageParser('/local1/ind_newscrawl_2016_1M-sentences.txt', '/local1/sharmava-nlp-data/ind.txt', save_sentences=True)
+    jpn = WortschatzLanguageParser('/local1/jpn_newscrawl_2019_1M-sentences.txt', '/local1/sharmava-nlp-data/jpn.txt', save_sentences=True)
+    vie = WortschatzLanguageParser('/local1/vie_wikipedia_2016_1M-sentences.txt', '/local1/sharmava-nlp-data/vie.txt', save_sentences=True)
